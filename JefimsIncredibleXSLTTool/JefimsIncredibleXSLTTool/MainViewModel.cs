@@ -1,7 +1,5 @@
 ﻿using ICSharpCode.AvalonEdit.Document;
 using JefimsIncredibleXsltTool.Lib;
-using JefimsMagicalXsltSyntaxConcoctions;
-using JefimsMagicalXsltSyntaxConcoctions.SyntaxSugars;
 using Microsoft.Win32;
 using Saxon.Api;
 using System;
@@ -100,7 +98,6 @@ namespace JefimsIncredibleXsltTool
                 if (this._document != null)
                 {
                     this._document.TextDocument.TextChanged += TextDocument_TextChanged;
-                    this.UseSyntaxSugar = this._document.TextDocument.Text.StartsWith(XsltStylesheetSugar.Keyword);
                     this.RunTransform();
                 }
 
@@ -128,42 +125,6 @@ namespace JefimsIncredibleXsltTool
             get
             {
                 return this._resultingXmlDocument;
-            }
-        }
-
-        private bool _useSyntaxSugar = false;
-        public bool UseSyntaxSugar {
-            get
-            {
-                return this._useSyntaxSugar;
-            }
-            set
-            {
-                if (this._useSyntaxSugar != value)
-                {
-                    this._useSyntaxSugar = value;
-                    OnPropertyChanged("UseSyntaxSugar");
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        try
-                        {
-                            if (value)
-                            {
-                                this.Document.TextDocument.Text = this._jefimsMagicalTranspiler.PureXsltToXsltWithSugar(this.Document.TextDocument.Text);
-                            }
-                            else
-                            {
-                                this.Document.TextDocument.Text = this._jefimsMagicalTranspiler.XsltWithSugarToPureXslt(this.Document.TextDocument.Text);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.ToString());
-                        }
-                    }));
-
-                    //this.RunTransform();
-                }
             }
         }
 
@@ -308,14 +269,6 @@ namespace JefimsIncredibleXsltTool
             }
         }
 
-        internal void UpdateConcoctionsUsingFlag()
-        {
-            if (this.Document != null && this.Document.TextDocument != null)
-            {
-                this.UseSyntaxSugar = this._document.TextDocument.Text.StartsWith(XsltStylesheetSugar.Keyword);
-            }
-        }
-
         Func<Task<bool>> _debouncedRunTransform = null;
 
         public void RunTransform()
@@ -327,8 +280,6 @@ namespace JefimsIncredibleXsltTool
 
             _debouncedRunTransform();
         }
-
-        private JefimsMagicalTranspiler _jefimsMagicalTranspiler = new JefimsMagicalTranspiler();
 
         public bool RunTransformImpl()
         {
@@ -342,10 +293,6 @@ namespace JefimsIncredibleXsltTool
                 try
                 {
                     this.OnTransformStarting();
-                    if(this.UseSyntaxSugar)
-                    {
-                        xslt = _jefimsMagicalTranspiler.XsltWithSugarToPureXslt(xslt);
-                    }
 
                     string result = null;
                     switch (this.XsltProcessingMode)

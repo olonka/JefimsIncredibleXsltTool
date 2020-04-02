@@ -130,12 +130,6 @@
     <SplashScreen Include="splash.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\JefimsMagicalXsltSyntaxConcoctions\JefimsMagicalXsltSyntaxConcoctions.csproj">
-      <Project>{5f69be12-ec86-4d7c-b43a-080ff1372a18}</Project>
-      <Name>JefimsMagicalXsltSyntaxConcoctions</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="README-SYNTAX.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

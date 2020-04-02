@@ -401,7 +401,6 @@ namespace WpfApplication2
 
 
             JefimsIncredibleXsltTool.Properties.Settings.Default.xsltProcessingMode = (int)this._mainViewModel.XsltProcessingMode;
-            JefimsIncredibleXsltTool.Properties.Settings.Default.useSyntaxConcoctions = this._mainViewModel.UseSyntaxSugar;
 
             JefimsIncredibleXsltTool.Properties.Settings.Default.Save();
         }
@@ -435,8 +434,6 @@ namespace WpfApplication2
 
                 this._mainViewModel.XsltProcessingMode = (XsltProcessingMode)JefimsIncredibleXsltTool.Properties.Settings.Default.xsltProcessingMode;
                 
-                this._mainViewModel.UpdateConcoctionsUsingFlag();
-
                 this.sourceXmlFoldingManager = FoldingManager.Install(this.SourceXml.TextArea);
                 this.sourceXsltFoldingManager = FoldingManager.Install(this.SourceXslt.TextArea);
                 this.UpdateFolding();
